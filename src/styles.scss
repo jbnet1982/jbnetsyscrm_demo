@@ -1,0 +1,139 @@
+body {
+  background-color: #ebedef; /* Gris claro de fondo */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Variables de color personalizadas */
+:root {
+  --app-purple: #5856d6;     /* El color púrpura del botón de referencia */
+  --app-purple-hover: #4644aa;
+}
+
+/* Clases de utilidad para nuestra nueva UI */
+.bg-light-gray {
+  background-color: #ebedef !important;
+}
+
+.text-purple {
+  color: var(--app-purple) !important;
+}
+
+.card-dashboard {
+  border: none;
+  border-radius: 8px; /* Bordes ligeramente redondeados */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05); /* Sombra muy suave */
+  transition: transform 0.2s ease-in-out;
+  background-color: white;
+}
+
+.card-dashboard:hover {
+  transform: translateY(-5px); /* Efecto elevación al pasar el mouse */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-purple {
+  background-color: var(--app-purple);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+}
+
+.btn-purple:hover {
+  background-color: var(--app-purple-hover);
+  color: white;
+  box-shadow: 0 4px 10px rgba(88, 86, 214, 0.3);
+}
+
+.btn-outline-purple {
+  background-color: transparent;
+  color: var(--app-purple);
+  border: 1px solid var(--app-purple);
+  border-radius: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.btn-outline-purple:hover {
+  background-color: var(--app-purple);
+  color: white;
+}
+
+.card-metric {
+  border: none;
+  border-radius: 12px;
+  color: white !important; /* Texto blanco forzado */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden; /* Para que el contenido no se salga del radio */
+}
+
+.card-metric:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* 1. Gradient Empresas (Azul/Purpura Profundo) */
+.bg-gradient-blue {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* 2. Gradient Contactos (Azul Cian/Aqua) */
+.bg-gradient-cyan {
+  background: linear-gradient(135deg, #0ba360 0%, #3cba92 100%); /* Ajustado a Verde Azulado agradable */
+  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+}
+
+/* 3. Gradient Oportunidades (Naranja/Coral) */
+.bg-gradient-orange {
+  background-image: linear-gradient( 135deg, #FFAA85 10%, #B3315F 100%);
+}
+
+/* 4. Gradient Dinero/Pipeline (Verde/Esmeralda) */
+.bg-gradient-green {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+/* Botón blanco semitransparente para dentro de las cards */
+.btn-glass {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+  backdrop-filter: blur(5px); /* Efecto vidrio */
+}
+
+.btn-glass:hover {
+  background-color: white;
+  color: #333;
+}
+
+.table-custom thead th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  color: #8898aa; /* Gris elegante para headers */
+  border-bottom-width: 1px;
+  background-color: #f8f9fa; /* Fondo muy suave header */
+}
+
+/* Botones de acción solo icono */
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.btn-icon:hover {
+  background-color: #eaecf4;
+  transform: scale(1.1);
+}

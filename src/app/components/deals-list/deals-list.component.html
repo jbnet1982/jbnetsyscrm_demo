@@ -1,0 +1,94 @@
+<c-container fluid class="fade-in p-4">
+  
+  <div class="card card-dashboard p-4 shadow-sm">
+    
+    <!-- Encabezado con Icono -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-center">
+        <!-- Icono Circular Morado -->
+        <div class="bg-light p-3 rounded-circle text-purple me-3">
+           <svg cIcon name="cilGraph" size="xl"></svg>
+        </div>
+        <div>
+          <h4 class="fw-bold text-dark mb-1">Pipeline de Oportunidades</h4>
+          <span class="text-muted small">Seguimiento y gestión de ventas en curso</span>
+        </div>
+      </div>
+      
+      <!-- Botón de Acción -->
+      <div>
+        <a routerLink="/deals/new" class="btn btn-purple shadow-sm d-flex align-items-center">
+          <svg cIcon name="cilPlus" class="me-2"></svg> Nueva Oportunidad
+        </a>
+      </div>
+    </div>
+
+    <!-- Tabla Estilizada -->
+    <div class="table-responsive">
+      <table cTable hover class="table-custom align-middle mb-0 border-white">
+        <thead>
+          <tr>
+            <th class="border-top-0 py-3 ps-3">Oportunidad</th>
+            <th class="border-top-0 py-3">Cliente / Empresa</th>
+            <th class="border-top-0 py-3 text-end">Valor Estimado</th>
+            <th class="border-top-0 py-3 text-center">Etapa</th>
+            <th class="border-top-0 py-3 text-end">Cierre Previsto</th>
+            <th class="border-top-0 py-3 text-end pe-4">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let deal of deals">
+            <td class="ps-3 py-3">
+               <div class="fw-bold text-dark">{{ deal.name }}</div>
+               <div class="small text-muted" *ngIf="deal.contactId">
+                  <svg cIcon name="cilUser" size="sm" class="me-1"></svg> {{ getContactName(deal.contactId) }}
+               </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center text-secondary">
+                 <svg cIcon name="cilBuilding" size="sm" class="me-2 text-purple opacity-50"></svg>
+                 <span>{{ getCompanyName(deal.companyId) }}</span>
+              </div>
+            </td>
+            
+            <!-- Columna Valor (Derecha) -->
+            <td class="text-end fw-semibold text-dark">
+               {{ deal.value | currency:'USD':'symbol':'1.0-0' }}
+            </td>
+
+            <!-- Columna Etapa (Badge Estilizado) -->
+            <td class="text-center">
+              <c-badge [color]="getBadgeColorForStage(deal.stage)" shape="rounded-pill" class="px-3 py-2 fw-normal">
+                {{ deal.stage }}
+              </c-badge>
+            </td>
+
+            <td class="text-end text-muted small">
+               <div class="d-flex justify-content-end align-items-center">
+                   <svg cIcon name="cilCalendar" size="sm" class="me-2"></svg>
+                   {{ deal.closeDate | date:'dd MMM yyyy' }}
+               </div>
+            </td>
+
+            <td class="text-end pe-3">
+              <a [routerLink]="['/deals/edit', deal.id]" 
+                 cTooltip="Editar"
+                 class="btn btn-icon text-info mx-1">
+                <svg cIcon name="cilPencil"></svg>
+              </a>
+              <!-- Agrega lógica de borrado si la requieres similar a contacts -->
+            </td>
+          </tr>
+
+          <tr *ngIf="deals.length === 0">
+              <td colspan="6" class="text-center py-5 text-muted">
+                  <svg cIcon name="cilFolderOpen" size="4xl" class="text-muted opacity-25 mb-3"></svg>
+                  <p>No hay oportunidades en el pipeline actualmente.</p>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</c-container>

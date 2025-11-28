@@ -1,0 +1,108 @@
+<c-container class="fade-in p-4">
+  <c-row class="justify-content-center">
+    <c-col [md]="10" [lg]="8">
+
+      <form [formGroup]="dealForm" (ngSubmit)="onSubmit()" novalidate>
+        
+        <!-- Tarjeta Flotante Estilizada -->
+        <div class="card card-dashboard p-4 shadow-sm">
+          
+          <!-- Header -->
+          <div class="card-header bg-white border-0 pb-3 ps-0">
+             <div class="d-flex align-items-center">
+                 <div class="bg-light p-3 rounded-circle text-purple me-3">
+                      <!-- Cambiamos el icono según el modo -->
+                      <svg cIcon [name]="isEditMode ? 'cilPencil' : 'cilDollar'" size="xl"></svg>
+                 </div>
+                 <div>
+                     <h4 class="mb-1 fw-bold text-dark">
+                        {{ isEditMode ? 'Editar Oportunidad' : 'Nueva Oportunidad Comercial' }}
+                     </h4>
+                     <p class="mb-0 text-muted small">Registra los detalles para gestionar el pipeline</p>
+                 </div>
+             </div>
+          </div>
+          <hr class="text-muted opacity-25">
+
+          <c-card-body class="pt-3">
+            <c-row class="g-4">
+              
+              <!-- Seccion 1: Identificación -->
+              <c-col [md]="12">
+                  <label cLabel for="name" class="fw-semibold text-secondary small mb-1">Nombre de la Oportunidad <span class="text-danger">*</span></label>
+                  <input cFormControl id="name" formControlName="name" placeholder="Ej: Contrato Renovación Q3 - [Cliente]" 
+                         [valid]="dealForm.controls['name'].touched && dealForm.controls['name'].valid"/>
+              </c-col>
+
+              <!-- Sección 2: Relación Comercial (Agrupada) -->
+              <c-col [md]="12" class="mt-4">
+                  <h6 class="text-uppercase text-secondary small fw-bold mb-3 border-bottom pb-2">Cliente y Contacto</h6>
+              </c-col>
+
+              <c-col [md]="6">
+                 <label cLabel for="companyId" class="fw-semibold text-dark small mb-1">Empresa Cliente <span class="text-danger">*</span></label>
+                 <select cSelect id="companyId" formControlName="companyId">
+                    <option [ngValue]="null" disabled selected>Seleccione empresa...</option>
+                    <option *ngFor="let company of companies" [value]="company.id">{{ company.name }}</option>
+                 </select>
+                 <c-form-feedback [valid]="false" *ngIf="dealForm.controls['companyId'].touched && dealForm.controls['companyId'].hasError('required')">
+                    Requerido.
+                 </c-form-feedback>
+              </c-col>
+
+              <c-col [md]="6">
+                <label cLabel for="contactId" class="fw-semibold text-dark small mb-1">Contacto Principal</label>
+                <select cSelect id="contactId" formControlName="contactId">
+                  <option [ngValue]="null" disabled selected>
+                     {{ dealForm.controls['companyId'].value ? 'Seleccione contacto...' : '← Seleccione empresa primero' }}
+                  </option>
+                  <option *ngFor="let contact of filteredContacts" [value]="contact.id">
+                     {{ contact.firstName }} {{ contact.lastName }}
+                  </option>
+                </select>
+              </c-col>
+
+              <!-- Sección 3: Datos Financieros y Tiempo -->
+              <c-col [md]="12" class="mt-4">
+                  <h6 class="text-uppercase text-secondary small fw-bold mb-3 border-bottom pb-2">Proyección de Venta</h6>
+              </c-col>
+
+              <c-col [md]="4">
+                 <label cLabel for="value" class="fw-semibold text-dark small mb-1">Valor Estimado ($)</label>
+                 <div class="input-group">
+                     <span class="input-group-text bg-light text-muted fw-bold">$</span>
+                     <input cFormControl type="number" id="value" formControlName="value" placeholder="0.00" class="text-end" />
+                 </div>
+              </c-col>
+
+              <c-col [md]="4">
+                 <label cLabel for="stage" class="fw-semibold text-dark small mb-1">Etapa Actual</label>
+                 <select cSelect id="stage" formControlName="stage" class="form-select fw-semibold text-purple">
+                    <option *ngFor="let stage of stages" [value]="stage">{{ stage }}</option>
+                 </select>
+              </c-col>
+
+              <c-col [md]="4">
+                 <label cLabel for="closeDate" class="fw-semibold text-dark small mb-1">Fecha Cierre Estimada</label>
+                 <input cFormControl type="date" id="closeDate" formControlName="closeDate" />
+              </c-col>
+
+            </c-row>
+          </c-card-body>
+
+          <!-- Footer Botones -->
+          <div class="d-flex justify-content-end mt-4 pt-3 border-top border-light">
+             <a routerLink="/deals" class="btn btn-outline-secondary px-4 me-3">
+               Cancelar
+             </a>
+             <button cButton class="btn-purple px-4 py-2 d-flex align-items-center shadow-sm" type="submit" [disabled]="dealForm.invalid">
+               <svg cIcon name="cilSave" class="me-2"></svg>
+               {{ isEditMode ? 'Actualizar Deal' : 'Crear Deal' }}
+             </button>
+          </div>
+
+        </div>
+      </form>
+    </c-col>
+  </c-row>
+</c-container>

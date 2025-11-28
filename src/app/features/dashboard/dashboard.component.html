@@ -1,0 +1,194 @@
+<c-container fluid class="p-4 fade-in">
+  
+  <!-- ========================================== -->
+  <!-- 1. HEADER PRINCIPAL (ESTILO INSTITUCIONAL) -->
+  <!-- ========================================== -->
+  <div class="mb-5 text-center">
+    <div class="d-inline-block p-3 rounded-circle bg-white shadow-sm mb-3">
+        <!-- Icono Principal Morado -->
+        <svg cIcon name="cilBuilding" size="3xl" class="text-purple"></svg>
+    </div>
+    <h2 class="fw-bold text-dark">Panel de Control CRM</h2>
+    <p class="text-muted">Bienvenido al sistema de gestión de JBNetsys</p>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 2. TARJETAS DE MÉTRICAS (GRADIENTES)       -->
+  <!-- ========================================== -->
+  <c-row class="mb-5">
+    
+    <!-- Widget 1: Empresas (Azul Profundo) -->
+    <c-col [sm]="6" [xl]="3">
+      <div class="card card-metric bg-gradient-blue h-100 p-3 shadow">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="text-white opacity-75 small fw-bold text-uppercase">Empresas</div>
+            <svg cIcon name="cilBuilding" size="xl" class="text-white opacity-50"></svg>
+        </div>
+        <div class="h2 mb-3 fw-bold">{{ companyCount | number }}</div>
+        
+        <div class="mt-auto">
+            <a [routerLink]="['/companies']" class="btn btn-glass btn-sm w-100 py-2 fw-semibold">
+                Ver Directorio <svg cIcon name="cilArrowRight" class="ms-2"></svg>
+            </a>
+        </div>
+      </div>
+    </c-col>
+
+    <c-col [sm]="6" [xl]="3">
+      <div class="card card-metric bg-gradient-cyan h-100 p-3 shadow">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="text-white opacity-75 small fw-bold text-uppercase">Contactos</div>
+            <svg cIcon name="cilPeople" size="xl" class="text-white opacity-50"></svg>
+        </div>
+        <div class="h2 mb-3 fw-bold">{{ contactCount | number }}</div>
+
+        <div class="mt-auto">
+             <a [routerLink]="['/contacts']" class="btn btn-glass btn-sm w-100 py-2 fw-semibold">
+                Ver Lista <svg cIcon name="cilArrowRight" class="ms-2"></svg>
+            </a>
+        </div>
+      </div>
+    </c-col>
+
+    <c-col [sm]="6" [xl]="3">
+      <div class="card card-metric bg-gradient-orange h-100 p-3 shadow">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="text-white opacity-75 small fw-bold text-uppercase">Oportunidades</div>
+            <svg cIcon name="cilGraph" size="xl" class="text-white opacity-50"></svg>
+        </div>
+        <div class="h2 mb-3 fw-bold">{{ activeDealsCount | number }}</div>
+        
+        <div class="mt-auto">
+             <a [routerLink]="['/deals']" class="btn btn-glass btn-sm w-100 py-2 fw-semibold">
+                Gestionar Pipeline 
+            </a>
+        </div>
+      </div>
+    </c-col>
+
+    <c-col [sm]="6" [xl]="3">
+      <div class="card card-metric bg-gradient-green h-100 p-3 shadow">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="text-white opacity-75 small fw-bold text-uppercase">Valor en Pipeline</div>
+            <svg cIcon name="cilDollar" size="xl" class="text-white opacity-50"></svg>
+        </div>
+        <div class="h2 mb-3 fw-bold">{{ activeDealsValue | currency:'USD':'symbol':'1.0-0' }}</div>
+        
+        <div class="mt-auto">
+            
+        </div>
+      </div>
+    </c-col>
+  </c-row>
+
+  <!-- ========================================== -->
+  <!-- 3. ACTIVIDAD RECIENTE                      -->
+  <!-- ========================================== -->
+  <c-row class="justify-content-center">
+    <c-col [md]="10" [xl]="8">
+      <div class="card card-dashboard shadow-sm bg-white">
+        
+        <div class="card-header bg-white border-0 pt-4 px-4 pb-2">
+            <h5 class="fw-bold mb-0 text-dark">
+                Actividad Reciente
+            </h5>
+            <p class="text-muted small mt-1">Últimas interacciones registradas en el sistema</p>
+        </div>
+        
+        <div class="card-body px-4 pb-4">
+          <!-- Lista de Items -->
+          <ul class="list-group list-group-flush" *ngIf="recentInteractions.length > 0; else noData">
+            
+            <li class="list-group-item border-0 border-bottom py-3" *ngFor="let item of recentInteractions">
+              <div class="d-flex align-items-center">
+                <!-- Icono circular pequeño para cada item -->
+                <div class="bg-light p-2 rounded-circle me-3 text-purple">
+                     <svg cIcon name="cilList"></svg>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="mb-0 text-dark fw-semibold">{{ item.notes }}</h6>
+                    <small class="text-muted">Contacto ID: #{{ item.contactId }}</small>
+                </div>
+                <div class="text-end">
+                    <span class="badge bg-light text-dark fw-normal border">
+                        {{ item.date | date:'shortDate' }}
+                    </span>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+
+          <!-- State vacío: Cuando no hay datos -->
+          <ng-template #noData>
+             <div class="text-center py-5">
+                 <svg cIcon name="cilDescription" size="4xl" class="text-muted opacity-25 mb-3"></svg>
+                 <p class="text-muted">No hay actividad reciente para mostrar.</p>
+                 <!-- BOTÓN PARA ABRIR EL MODAL (STATE VACÍO) -->
+                 <button class="btn btn-purple px-4 mt-2" (click)="toggleModal()">
+                    Crear nueva nota
+                 </button>
+             </div>
+          </ng-template>
+
+        </div>
+        
+        <!-- FOOTER: Botón para Crear Nota (Visible si hay items) -->
+        <div class="card-footer bg-white border-0 text-center pb-4" *ngIf="recentInteractions.length > 0">
+           <!-- BOTÓN PARA ABRIR EL MODAL -->
+           <button class="btn btn-purple px-5 py-2 shadow-sm text-uppercase fw-semibold" (click)="toggleModal()" style="letter-spacing: 0.5px;">
+              Crear Nueva Nota
+           </button>
+        </div>
+
+      </div>
+    </c-col>
+  </c-row>
+
+</c-container>
+
+
+<!-- ========================================== -->
+<!-- 4. MODAL: REGISTRAR INTERACCIÓN RÁPIDA     -->
+<!-- ========================================== -->
+<c-modal [visible]="visibleModal" (visibleChange)="handleModalChange($event)" size="lg" alignment="center">
+    
+    <c-modal-header class="border-0 pb-0">
+      <h5 cModalTitle class="fw-bold text-dark ps-2 pt-2">Registrar Actividad Rápida</h5>
+      <button (click)="toggleModal()" cButtonClose></button>
+    </c-modal-header>
+  
+    <c-modal-body class="p-4">
+      <!-- A. Selector de Contacto (Paso previo obligatorio) -->
+      <div class="mb-4 bg-light p-3 rounded border">
+         <label class="small fw-bold text-secondary mb-2 text-uppercase">1. Seleccionar Contacto / Cliente</label>
+         <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+                <svg cIcon name="cilPeople" size="sm"></svg>
+            </span>
+            <select cSelect [(ngModel)]="selectedContactId" class="form-select border-start-0" [style.box-shadow]="'none'">
+                <option [ngValue]="null" disabled selected>-- Buscar contacto en la lista --</option>
+                <option *ngFor="let contact of contactsList" [value]="contact.id">
+                    {{ contact.firstName }} {{ contact.lastName }}
+                </option>
+            </select>
+         </div>
+         <!-- Mensaje de ayuda si no hay selección -->
+         <div *ngIf="!selectedContactId" class="text-muted small mt-2 d-flex align-items-center">
+           <svg cIcon name="cilInfo" size="sm" class="me-1"></svg> 
+           Seleccione un contacto arriba para habilitar el formulario.
+         </div>
+      </div>
+  
+      <!-- B. Formulario Hijo (Solo se muestra si hay contacto seleccionado) -->
+      <div *ngIf="selectedContactId" class="fade-in mt-2">
+          <!-- Inyección del Componente Hijo -->
+          <!-- Escuchamos el evento (interactionSaved) para cerrar y refrescar -->
+          <app-interaction-form 
+              [contactId]="selectedContactId" 
+              (interactionSaved)="onInteractionSaved($event)">
+          </app-interaction-form>
+      </div>
+  
+    </c-modal-body>
+</c-modal>

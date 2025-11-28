@@ -1,0 +1,24 @@
+<c-card>
+  <c-card-header>
+    <strong>Historial de Interacciones</strong>
+  </c-card-header>
+  <c-card-body>
+    <ul cListGroup *ngIf="interactions.length > 0; else noInteractions">
+      <li cListGroupItem *ngFor="let interaction of interactions">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">
+            <c-icon [name]="getInteractionType(interaction.interactionTypeId)?.icon || 'cil-speech'" class="me-2"></c-icon>
+            {{ getInteractionType(interaction.interactionTypeId)?.name }}
+          </h5>
+          <small>{{ interaction.date | date:'short' }}</small>
+        </div>
+        <p class="mb-1 ms-4">
+          {{ interaction.notes }}
+        </p>
+      </li>
+    </ul>
+    <ng-template #noInteractions>
+      <div class="text-center text-muted">No hay interacciones registradas.</div>
+    </ng-template>
+  </c-card-body>
+</c-card>

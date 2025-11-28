@@ -1,0 +1,97 @@
+<c-container class="fade-in p-4">
+  <c-row class="justify-content-center">
+    <!-- Centramos el contenido similar a la vista de Deals -->
+    <c-col [md]="10" [lg]="8">
+
+      <form [formGroup]="interactionForm" (ngSubmit)="onSubmit()" novalidate>
+        
+        <!-- Tarjeta con sombra suave y fondo blanco -->
+        <div class="card card-dashboard p-4 shadow-sm">
+          
+          <!-- Encabezado Estilizado -->
+          <div class="card-header bg-white border-0 pb-3 ps-0">
+             <div class="d-flex align-items-center">
+                 <!-- Círculo morado claro con icono -->
+                 <div class="bg-light p-3 rounded-circle text-purple me-3">
+                      <svg cIcon name="cilCommentSquare" size="xl"></svg>
+                 </div>
+                 <div>
+                     <h4 class="mb-1 fw-bold text-dark">Nueva Interacción</h4>
+                     <p class="mb-0 text-muted small">Registra los detalles de la actividad realizada</p>
+                 </div>
+             </div>
+          </div>
+          <hr class="text-muted opacity-25">
+
+          <c-card-body class="pt-3">
+            <c-row class="g-4">
+              
+              <!-- TÍTULO DE SECCIÓN: METADATOS -->
+              <c-col [md]="12">
+                  <h6 class="text-uppercase text-secondary small fw-bold mb-3 border-bottom pb-2">Datos de la Actividad</h6>
+              </c-col>
+
+              <!-- Campo: Tipo de Interacción -->
+              <c-col [md]="6">
+                <label cLabel for="interactionTypeId" class="fw-semibold text-secondary small mb-1">Tipo de Interacción <span class="text-danger">*</span></label>
+                <select cSelect id="interactionTypeId" formControlName="interactionTypeId" class="form-select">
+                  <option [ngValue]="null" disabled selected>Seleccione tipo...</option>
+                  <option *ngFor="let type of interactionTypes" [value]="type.id">{{ type.name }}</option>
+                </select>
+                <!-- Validación Visual -->
+                <c-form-feedback [valid]="false" *ngIf="interactionForm.controls['interactionTypeId'].touched && interactionForm.controls['interactionTypeId'].hasError('required')">
+                   Debes seleccionar un tipo.
+                </c-form-feedback>
+              </c-col>
+
+              <!-- Campo: Fecha (Con icono igual que Deal Form) -->
+              <c-col [md]="6">
+                <label cLabel for="date" class="fw-semibold text-secondary small mb-1">Fecha de Ejecución</label>
+                <div class="input-group">
+                    <input cFormControl type="date" id="date" formControlName="date" class="border-end-0" />
+                    <span class="input-group-text bg-white border-start-0 text-muted">
+                        <svg cIcon name="cilCalendar" size="sm"></svg>
+                    </span>
+                </div>
+              </c-col>
+
+              <!-- TÍTULO DE SECCIÓN: CONTENIDO -->
+              <c-col [md]="12" class="mt-4">
+                  <h6 class="text-uppercase text-secondary small fw-bold mb-3 border-bottom pb-2">Contenido</h6>
+              </c-col>
+
+              <!-- Campo: Notas -->
+              <c-col [md]="12">
+                <label cLabel for="notes" class="fw-semibold text-secondary small mb-1">Notas / Comentarios <span class="text-danger">*</span></label>
+                <textarea cFormControl id="notes" formControlName="notes" rows="5" placeholder="Escriba aquí el resumen de la interacción, acuerdos o tareas pendientes..." 
+                          style="resize: none;"></textarea>
+                 <c-form-feedback [valid]="false" *ngIf="interactionForm.controls['notes'].touched && interactionForm.controls['notes'].hasError('required')">
+                   El contenido de la nota es obligatorio.
+                </c-form-feedback>
+              </c-col>
+
+            </c-row>
+          </c-card-body>
+
+          <!-- Footer con Botones alineados a la derecha -->
+          <div class="d-flex justify-content-end mt-4 pt-3 border-top border-light">
+             
+             <!-- Botón "Cancelar" (Simplemente resetea el formulario en este contexto, o puedes navegar hacia atrás) -->
+             <button type="button" class="btn btn-outline-secondary px-4 me-3" (click)="resetForm()">
+               Limpiar
+             </button>
+
+             <!-- Botón "Guardar" (Estilo .btn-purple) -->
+             <button cButton class="btn-purple px-4 py-2 d-flex align-items-center shadow-sm text-uppercase fw-semibold text-white" 
+                     type="submit" 
+                     [disabled]="interactionForm.invalid">
+                <svg cIcon name="cilSave" class="me-2"></svg>
+                Guardar Interacción
+             </button>
+          </div>
+
+        </div>
+      </form>
+    </c-col>
+  </c-row>
+</c-container>

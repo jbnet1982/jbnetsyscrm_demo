@@ -1,0 +1,80 @@
+<c-container fluid class="fade-in p-4">
+  <div class="card card-dashboard p-4">
+    
+    <!-- Encabezado Personalizado Limpio -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h4 class="fw-bold text-dark mb-1">
+          <svg cIcon name="cilBuilding" class="text-purple me-2"></svg>
+          Listado de Empresas
+        </h4>
+        <span class="text-muted small">Gestiona tu base de datos de clientes corporativos</span>
+      </div>
+      <div>
+        <!-- Botón Púrpura "App Style" -->
+        <a routerLink="/companies/new" class="btn btn-purple shadow-sm">
+          <svg cIcon name="cilPlus" class="me-1"></svg> Nuevo
+        </a>
+      </div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-responsive">
+      <table cTable hover class="table-custom align-middle mb-0 border-white">
+        <thead>
+          <tr>
+            <th class="border-top-0 py-3 ps-3">Empresa</th>
+            <th class="border-top-0 py-3">Industria</th>
+            <th class="border-top-0 py-3">Contacto</th>
+            <th class="border-top-0 py-3 text-center">Sitio Web</th>
+            <th class="border-top-0 py-3 text-end pe-4">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let company of companies">
+            <td class="ps-3 py-3">
+              <div class="fw-semibold text-dark">{{ company.name }}</div>
+            </td>
+            <td>
+              <span class="badge bg-light text-secondary border">
+                 {{ getIndustryName(company.industryTypeId) }}
+              </span>
+            </td>
+            <td class="small text-muted">
+                <div *ngIf="company.phone">
+                    <svg cIcon name="cilPhone" size="sm" class="me-1"></svg> {{ company.phone }}
+                </div>
+                <div class="mt-1" *ngIf="company.address">
+                     <svg cIcon name="cilLocationPin" size="sm" class="me-1"></svg> {{ company.address }}
+                </div>
+            </td>
+            <td class="text-center">
+                <a [href]="'http://' + company.website" target="_blank" class="text-decoration-none text-purple small fw-bold">
+                     Visitar <svg cIcon name="cilExternalLink" size="sm" class="ms-1"></svg>
+                </a>
+            </td>
+            <td class="text-end pe-3">
+              <!-- Botones de icono limpios -->
+              <a [routerLink]="['/companies/edit', company.id]" 
+                 cTooltip="Editar" 
+                 class="btn btn-icon text-info mx-1">
+                <svg cIcon name="cilPencil"></svg>
+              </a>
+              <button (click)="deleteCompany(company.id)" 
+                      cTooltip="Eliminar"
+                      class="btn btn-icon text-danger mx-1">
+                <svg cIcon name="cilTrash"></svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mensaje de estado vacío (Opcional, pero se ve bien) -->
+    <div *ngIf="companies.length === 0" class="text-center py-5">
+         <p class="text-muted">No se encontraron empresas registradas.</p>
+    </div>
+
+  </div>
+</c-container>

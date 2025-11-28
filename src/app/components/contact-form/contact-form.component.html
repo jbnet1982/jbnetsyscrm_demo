@@ -1,0 +1,105 @@
+<c-container class="fade-in p-4">
+  <c-row class="justify-content-center">
+    <c-col [md]="10" [lg]="8">
+
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+        
+        <div class="card card-dashboard p-4 shadow-sm">
+          
+          <!-- Header del Formulario -->
+          <div class="card-header bg-white border-0 pb-3 ps-0">
+             <div class="d-flex align-items-center">
+                 <div class="bg-light p-3 rounded-circle text-purple me-3">
+                      <svg cIcon [name]="isEditMode ? 'cilPencil' : 'cilUser'" size="xl"></svg>
+                 </div>
+                 <div>
+                     <h4 class="mb-1 fw-bold text-dark">
+                        {{ isEditMode ? 'Editar Contacto' : 'Nuevo Contacto' }}
+                     </h4>
+                     <p class="mb-0 text-muted small">Información personal y datos de contacto</p>
+                 </div>
+             </div>
+          </div>
+          <hr class="text-muted opacity-25">
+
+          <c-card-body class="pt-3">
+            <c-row class="g-4">
+              
+              <!-- Información Personal -->
+              <c-col [md]="12">
+                  <h6 class="text-uppercase text-secondary small fw-bold mb-3">Datos Personales</h6>
+              </c-col>
+
+              <c-col [md]="6">
+                <label cLabel for="firstName" class="fw-semibold text-dark small mb-1">Nombre <span class="text-danger">*</span></label>
+                <input cFormControl id="firstName" formControlName="firstName" placeholder="Ej: Ana"
+                       [valid]="contactForm.controls['firstName'].valid && (contactForm.controls['firstName'].touched)"/>
+                <c-form-feedback [valid]="false" *ngIf="contactForm.controls['firstName'].touched && contactForm.controls['firstName'].hasError('required')">
+                   Nombre es obligatorio.
+                </c-form-feedback>
+              </c-col>
+
+              <c-col [md]="6">
+                <label cLabel for="lastName" class="fw-semibold text-dark small mb-1">Apellido <span class="text-danger">*</span></label>
+                <input cFormControl id="lastName" formControlName="lastName" placeholder="Ej: García"
+                       [valid]="contactForm.controls['lastName'].valid && (contactForm.controls['lastName'].touched)"/>
+                <c-form-feedback [valid]="false" *ngIf="contactForm.controls['lastName'].touched && contactForm.controls['lastName'].hasError('required')">
+                   Apellido es obligatorio.
+                </c-form-feedback>
+              </c-col>
+
+              <!-- Información Profesional -->
+              <c-col [md]="12" class="mt-4">
+                  <h6 class="text-uppercase text-secondary small fw-bold mb-3">Información Corporativa</h6>
+              </c-col>
+
+              <c-col [md]="6">
+                <label cLabel for="email" class="fw-semibold text-dark small mb-1">Email Corporativo <span class="text-danger">*</span></label>
+                <div class="input-group">
+                   <span class="input-group-text bg-light border-end-0 text-muted"><svg cIcon name="cilEnvelopeClosed" size="sm"></svg></span>
+                   <input cFormControl id="email" type="email" formControlName="email" class="border-start-0" placeholder="usuario@empresa.com"/>
+                </div>
+                 <div class="text-danger small mt-1" *ngIf="contactForm.controls['email'].touched && contactForm.controls['email'].errors">
+                    <span *ngIf="contactForm.controls['email'].hasError('required')">Email obligatorio.</span>
+                    <span *ngIf="contactForm.controls['email'].hasError('email')">Formato inválido.</span>
+                 </div>
+              </c-col>
+
+              <c-col [md]="6">
+                 <label cLabel for="companyId" class="fw-semibold text-dark small mb-1">Empresa <span class="text-danger">*</span></label>
+                 <select cSelect id="companyId" formControlName="companyId" class="form-select">
+                    <option [ngValue]="null" disabled selected>Seleccione empresa...</option>
+                    <option *ngFor="let company of companies" [value]="company.id">{{ company.name }}</option>
+                 </select>
+                 <c-form-feedback [valid]="false" *ngIf="contactForm.controls['companyId'].touched && contactForm.controls['companyId'].hasError('required')">
+                    Seleccione una empresa.
+                 </c-form-feedback>
+              </c-col>
+
+              <c-col [md]="6">
+                <label cLabel for="phone" class="fw-semibold text-dark small mb-1">Teléfono</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0 text-muted"><svg cIcon name="cilPhone" size="sm"></svg></span>
+                    <input cFormControl id="phone" formControlName="phone" class="border-start-0" placeholder="+XX (XXX) XXX-XXXX" />
+                </div>
+              </c-col>
+
+            </c-row>
+          </c-card-body>
+
+          <!-- Footer Botones -->
+          <div class="d-flex justify-content-end mt-4 pt-3 border-top border-light">
+              <a routerLink="/contacts" class="btn btn-outline-secondary px-4 me-3">
+                Cancelar
+              </a>
+              <button cButton class="btn-purple px-4 py-2 d-flex align-items-center" type="submit" [disabled]="contactForm.invalid">
+                <svg cIcon name="cilSave" class="me-2"></svg>
+                Guardar
+              </button>
+          </div>
+
+        </div>
+      </form>
+    </c-col>
+  </c-row>
+</c-container>

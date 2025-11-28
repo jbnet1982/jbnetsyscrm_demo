@@ -1,0 +1,82 @@
+<c-container class="fade-in p-4">
+  <c-row class="justify-content-center">
+    <c-col [md]="10" [lg]="8">
+      
+      <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+        <!-- Usamos la clase card-dashboard -->
+        <div class="card card-dashboard p-4 shadow-sm">
+          
+          <div class="card-header bg-white border-0 pb-3 ps-0">
+             <div class="d-flex align-items-center">
+                 <div class="bg-light p-3 rounded-circle text-purple me-3">
+                      <!-- Icono cambia si editas o creas -->
+                      <svg cIcon [name]="isEditMode ? 'cilPencil' : 'cilBriefcase'" size="xl"></svg>
+                 </div>
+                 <div>
+                     <h4 class="mb-1 fw-bold text-dark">{{ isEditMode ? 'Editar Información' : 'Registrar Empresa' }}</h4>
+                     <p class="mb-0 text-muted small">
+                         {{ isEditMode ? 'Actualice los datos necesarios' : 'Complete el formulario para dar de alta una nueva empresa' }}
+                     </p>
+                 </div>
+             </div>
+          </div>
+          <hr class="text-muted opacity-25">
+
+          <c-card-body class="pt-3">
+            <c-row class="g-4">
+              
+              <!-- Fila 1 -->
+              <c-col [md]="6">
+                <label cLabel for="name" class="fw-semibold text-secondary small mb-1">Nombre Comercial <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0 text-muted"><svg cIcon name="cilBuilding" size="sm"></svg></span>
+                    <input cFormControl id="name" formControlName="name" class="border-start-0" placeholder="Ej: Tech Solutions LLC"/>
+                </div>
+              </c-col>
+
+              <c-col [md]="6">
+                <label cLabel for="industryTypeId" class="fw-semibold text-secondary small mb-1">Industria <span class="text-danger">*</span></label>
+                 <select cSelect id="industryTypeId" formControlName="industryTypeId" class="form-select">
+                  <option [ngValue]="null" disabled selected>Seleccione opción...</option>
+                  <option *ngFor="let type of industryTypes" [ngValue]="type.id">{{ type.name }}</option>
+                </select>
+              </c-col>
+
+              <!-- Fila 2 -->
+              <c-col [md]="6">
+                 <label cLabel for="phone" class="fw-semibold text-secondary small mb-1">Teléfono de contacto</label>
+                 <input cFormControl id="phone" formControlName="phone" placeholder="+1 (555) 000-0000" />
+              </c-col>
+
+              <c-col [md]="6">
+                 <label cLabel for="website" class="fw-semibold text-secondary small mb-1">Sitio Web</label>
+                 <div class="input-group">
+                     <span class="input-group-text bg-light text-muted">https://</span>
+                     <input cFormControl id="website" formControlName="website" placeholder="www.empresa.com"/>
+                 </div>
+              </c-col>
+
+               <!-- Fila 3: Full Width -->
+              <c-col [md]="12">
+                <label cLabel for="address" class="fw-semibold text-secondary small mb-1">Dirección Fiscal / Oficina</label>
+                <textarea cFormControl id="address" formControlName="address" rows="3" placeholder="Dirección completa"></textarea>
+              </c-col>
+            </c-row>
+          </c-card-body>
+
+          <!-- Footer Botones -->
+          <div class="d-flex justify-content-end mt-4 pt-3 border-top border-light">
+             <a routerLink="/companies" class="btn btn-outline-secondary px-4 me-3">
+                Cancelar
+             </a>
+             <button cButton class="btn-purple px-4 py-2 d-flex align-items-center" type="submit" [disabled]="companyForm.invalid">
+                <svg cIcon name="cilSave" class="me-2"></svg>
+                {{ isEditMode ? 'Guardar Cambios' : 'Crear Empresa' }}
+             </button>
+          </div>
+
+        </div>
+      </form>
+    </c-col>
+  </c-row>
+</c-container>

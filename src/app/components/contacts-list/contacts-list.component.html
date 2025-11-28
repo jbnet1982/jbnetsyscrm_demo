@@ -1,0 +1,93 @@
+<c-container fluid class="fade-in p-4">
+  <div class="card card-dashboard p-4 shadow-sm">
+    
+    <!-- Encabezado Personalizado Estilo "Turnos/App" -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex align-items-center">
+        <!-- Icono circular púrpura -->
+        <div class="bg-light p-3 rounded-circle text-purple me-3">
+           <svg cIcon name="cilPeople" size="xl"></svg>
+        </div>
+        <div>
+          <h4 class="fw-bold text-dark mb-1">Listado de Contactos</h4>
+          <span class="text-muted small">Administra las personas clave de tus cuentas</span>
+        </div>
+      </div>
+      
+      <!-- Botón de acción principal -->
+      <div>
+        <a routerLink="/contacts/new" class="btn btn-purple shadow-sm d-flex align-items-center">
+          <svg cIcon name="cilUserPlus" class="me-2"></svg> Nuevo Contacto
+        </a>
+      </div>
+    </div>
+
+    <!-- Tabla Estilizada -->
+    <div class="table-responsive">
+      <table cTable hover class="table-custom align-middle mb-0 border-white">
+        <thead>
+          <tr>
+            <th class="border-top-0 py-3 ps-3">Nombre Completo</th>
+            <th class="border-top-0 py-3">Contacto Digital</th>
+            <th class="border-top-0 py-3">Teléfono</th>
+            <th class="border-top-0 py-3">Empresa Asignada</th>
+            <th class="border-top-0 py-3 text-end pe-4">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contact of contacts">
+            <td class="ps-3 py-3">
+              <div class="d-flex align-items-center">
+                 <!-- Avatar genérico opcional -->
+                 <div class="avatar bg-soft-info text-info me-3 rounded-circle d-flex align-items-center justify-content-center" style="width:36px; height:36px; background-color: #e0e7ff; color:#5856d6; font-weight:bold;">
+                    {{ contact.firstName.charAt(0) }}{{ contact.lastName.charAt(0) }}
+                 </div>
+                 <div>
+                    <div class="fw-semibold text-dark">{{ contact.firstName }} {{ contact.lastName }}</div>
+                 </div>
+              </div>
+            </td>
+            <td>
+              <div class="small text-muted" *ngIf="contact.email">
+                 <svg cIcon name="cilEnvelopeClosed" size="sm" class="me-1 text-secondary"></svg> 
+                 {{ contact.email }}
+              </div>
+            </td>
+            <td>
+              <span class="text-dark small" *ngIf="contact.phone">
+                {{ contact.phone }}
+              </span>
+              <span class="text-muted small fst-italic" *ngIf="!contact.phone">--</span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center text-secondary">
+                 <svg cIcon name="cilBuilding" size="sm" class="me-2 text-purple opacity-50"></svg>
+                 <span class="fw-medium">{{ getCompanyName(contact.companyId) }}</span>
+              </div>
+            </td>
+            <td class="text-end pe-3">
+              <!-- Botones tipo icono -->
+              <a [routerLink]="['/contacts/edit', contact.id]" 
+                 cTooltip="Editar"
+                 class="btn btn-icon text-info mx-1">
+                <svg cIcon name="cilPencil"></svg>
+              </a>
+              <button (click)="deleteContact(contact.id)" 
+                      cTooltip="Eliminar"
+                      class="btn btn-icon text-danger mx-1">
+                <svg cIcon name="cilTrash"></svg>
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="contacts.length === 0">
+              <td colspan="5" class="text-center py-5 text-muted">
+                  <p>No se encontraron contactos registrados.</p>
+              </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</c-container>
